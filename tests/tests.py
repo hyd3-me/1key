@@ -8,6 +8,13 @@ class TestClass(unittest.TestCase):
         hash_value = gen_hash.generate_hash(test_pwd)
         self.assertTrue(hash_value)
         self.assertEqual(len(hash_value), 60)
+    
+    def test_hash_uniqueness(self):
+        password1 = "test_password1"
+        password2 = "test_password2"
+        hash1 = gen_hash.generate_hash(password1)
+        hash2 = gen_hash.generate_hash(password2)
+        self.assertNotEqual(hash1, hash2)
 
 
 if __name__ == '__main__':
