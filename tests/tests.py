@@ -15,6 +15,11 @@ class TestClass(unittest.TestCase):
         hash1 = gen_hash.generate_hash(password1)
         hash2 = gen_hash.generate_hash(password2)
         self.assertNotEqual(hash1, hash2)
+    
+    def test_hash_comparison(self):
+        password = "test_password"
+        hash_value = gen_hash.generate_hash(password)
+        self.assertTrue(gen_hash.check_password(hash_value, password))
 
 
 if __name__ == '__main__':
