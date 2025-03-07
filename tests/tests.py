@@ -20,6 +20,12 @@ class TestClass(unittest.TestCase):
         password = "test_password"
         hash_value = gen_hash.generate_hash(password)
         self.assertTrue(gen_hash.check_password(hash_value, password))
+    
+    def test_wrong_password(self):
+        password = "test_password"
+        wrong_password = "wrong_password"
+        hash_value = gen_hash.generate_hash(password)
+        self.assertFalse(gen_hash.check_password(hash_value, wrong_password))
 
 
 if __name__ == '__main__':
