@@ -1,6 +1,10 @@
 import unittest
+import os
+import sqlite3
 
+from db_module import base_db
 import gen_hash
+
 
 class TestClass(unittest.TestCase):
     def test_hash_len_eq_to60(self):
@@ -26,6 +30,24 @@ class TestClass(unittest.TestCase):
         wrong_password = "wrong_password"
         hash_value = gen_hash.generate_hash(password)
         self.assertFalse(gen_hash.check_password(hash_value, wrong_password))
+
+
+class TestDatabaseConnection(unittest.TestCase):
+    def setUp(self):
+        # Устанавливаем переменную окружения для тестирования
+        os.environ['ENVIRONMENT'] = 'testing'
+        self.conn = base_db.get_db_connection()
+        self.cursor = self.conn.cursor()
+        base_db.create_table(self.conn)  # Создаем таблицу
+
+    def tearDown(self):
+        self.conn.close()
+        # Удаляем переменную окружения
+        del os.environ['ENVIRONMENT']
+    
+    def test_connection_success(self):
+        # Проверяем, что соединение установлено
+        self.assertIsNotNone(self.conn)
 
 
 if __name__ == '__main__':
