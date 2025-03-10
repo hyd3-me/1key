@@ -48,7 +48,12 @@ class TestDatabaseConnection(unittest.TestCase):
     def test_connection_success(self):
         # Проверяем, что соединение установлено
         self.assertIsNotNone(self.conn)
-
+    
+    def test_table_exists(self):
+        # Проверяем, что таблица users существует
+        self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='users';")
+        result = self.cursor.fetchone()
+        self.assertIsNotNone(result)
 
 if __name__ == '__main__':
     unittest.main()
