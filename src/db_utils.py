@@ -18,8 +18,8 @@ def create_table(conn):
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username VARCHAR(64),
-            password_hash VARCHAR(60)
+            username VARCHAR(64) UNIQUE,
+            password_hash VARCHAR(64)
         )
     ''')
     conn.commit()
