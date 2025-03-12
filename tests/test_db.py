@@ -3,6 +3,7 @@ import os
 import sqlite3
 
 import src.db_utils as db_utils
+import src.utils as utils
 
 
 class TestDatabaseConnection(unittest.TestCase):
@@ -27,3 +28,16 @@ class TestDatabaseConnection(unittest.TestCase):
         self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='users';")
         result = self.cursor.fetchone()
         self.assertIsNotNone(result)
+    
+    def test_add_user(self):
+        # Add a test user
+        username = "test_user"
+        password = "test_password"
+        password_hash = utils.generate_hash(password)  # Генерируем хеш
+        db_utils.add_user(self.conn, username, password_hash)  # Используем функцию из db_utils
+
+        # Verify that the user was added
+        self.cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+        result = self.cursor.fetchone()
+        self.assertIsNotNone(result)
+        self.assertEqual(result[1], username)  # Verify username

@@ -23,3 +23,9 @@ def create_table(conn):
         )
     ''')
     conn.commit()
+
+def add_user(conn, username, password_hash):
+    # Add a new user to the database
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO users (username, password_hash) VALUES (?, ?) ", (username, password_hash))
+    conn.commit()
