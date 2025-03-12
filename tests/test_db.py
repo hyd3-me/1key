@@ -41,3 +41,22 @@ class TestDatabaseConnection(unittest.TestCase):
         result = self.cursor.fetchone()
         self.assertIsNotNone(result)
         self.assertEqual(result[1], username)  # Verify username
+    
+    def test_add_multiple_users(self):
+        # Add multiple test users
+        users = [
+            ("user1", "password_1"),
+            ("user2", "password_2"),
+            ("user3", "password_3"),
+        ]
+
+        for username, password in users:
+            password_hash = utils.generate_hash(password)
+            db_utils.add_user(self.conn, username, password_hash)
+
+        # Verify that all users were added
+        for username, password in users:
+            self.cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+            result = self.cursor.fetchone()
+            self.assertIsNotNone(result)
+            self.assertEqual(result[1], username)  # Verify username
