@@ -60,3 +60,14 @@ class TestDatabaseConnection(unittest.TestCase):
             result = self.cursor.fetchone()
             self.assertIsNotNone(result)
             self.assertEqual(result[1], username)  # Verify username
+    
+    def test_unique_username_constraint(self):
+        # Add first user
+        username = "username1"
+        password_hash1 = utils.generate_hash("password1")
+        db_utils.add_user(self.conn, username, password_hash1)
+
+        # Try to add not unique username to db
+        password_hash2 = utils.generate_hash("password2")
+        with self.assertRaises(sqlite3.IntegrityError):
+            db_utils.add_user(self.conn, username, password_hash2)
