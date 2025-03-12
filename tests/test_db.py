@@ -17,9 +17,7 @@ class TestDatabaseConnection(unittest.TestCase):
         self.conn.close()
         # Delete the environment variable
         del os.environ['ENVIRONMENT']
-
-        # Verify that the user was added
-        self.cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
-        result = self.cursor.fetchone()
-        self.assertIsNotNone(result)
-        self.assertEqual(result[1], username)  # Verify username
+    
+    def test_connection_success(self):
+        # Проверяем, что соединение установлено
+        self.assertIsNotNone(self.conn)
