@@ -28,6 +28,17 @@ class TestUtils(unittest.TestCase):
         hash_value = utils.generate_hash(password)
         self.assertFalse(utils.check_password(hash_value, wrong_password))
 
+    def test_valid_usernames(self):
+        valid_cases = [
+            "john_doe-123",
+            "Alice99",
+            "a-b_c",
+            "x" * 64
+        ]
+        for username in valid_cases:
+            with self.subTest(username=username):
+                self.assertTrue(utils.validate_username(username))
+
 
 if __name__ == '__main__':
     unittest.main()
