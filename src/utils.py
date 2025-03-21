@@ -17,4 +17,4 @@ def validate_username(username):
     Returns: bool
     """
     pattern = r"^[a-zA-Z0-9-_]{3,64}$"
-    return re.match(pattern, username.strip()) is not None
+    return re.match(pattern, username) is not None
