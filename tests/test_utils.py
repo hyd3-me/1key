@@ -39,6 +39,19 @@ class TestUtils(unittest.TestCase):
             with self.subTest(username=username):
                 self.assertTrue(utils.validate_username(username))
 
+    def test_invalid_usernames(self):
+        invalid_cases = [
+            "  whitespace  ",
+            "user@name",
+            "a",
+            "x" * 65,
+            "user$name",
+            ""
+        ]
+        for username in invalid_cases:
+            with self.subTest(username=username):
+                self.assertFalse(utils.validate_username(username))
+
 
 if __name__ == '__main__':
     unittest.main()
