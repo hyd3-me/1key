@@ -1,6 +1,7 @@
 import bcrypt
 import re
 
+import src.db_utils as db_utils
 
 def generate_hash(pwd):
     return bcrypt.hashpw(pwd.encode('utf-8'), bcrypt.gensalt())
@@ -18,3 +19,9 @@ def validate_username(username):
     """
     pattern = r"^[a-zA-Z0-9-_]{3,64}$"
     return re.match(pattern, username) is not None
+
+def add_user(conn, username, password_hash):
+    if not validate_username(username):
+        return False
+    db_utils.add_user(conn, username, password_hash)
+    return True
