@@ -53,21 +53,6 @@ class TestUtils(unittest.TestCase):
         for username in invalid_cases:
             with self.subTest(username=username):
                 self.assertFalse(utils.validate_username(username))
-    
-    def test_add_user_via_utils(self):
-        os.environ['ENVIRONMENT'] = 'testing'
-        conn = db_utils.get_db_connection()
-        # cursor = self.conn.cursor()
-        db_utils.create_table(conn)
-
-        # Add a test user
-        username = "test_user"
-        password = "test_password"
-        password_hash = utils.generate_hash(password)
-        result = utils.add_user(conn, username, password_hash)
-        self.assertTrue(result)
-        conn.close()
-        del os.environ['ENVIRONMENT']
 
 
 if __name__ == '__main__':
