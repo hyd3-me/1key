@@ -71,3 +71,8 @@ class TestDatabaseConnection(unittest.TestCase):
         password_hash2 = utils.generate_hash("password2")
         with self.assertRaises(sqlite3.IntegrityError):
             db_utils.add_user(self.conn, username, password_hash2)
+    
+    def test_add_user_with_invalid_username(self):
+        # Invalid username with spaces
+        result = utils.add_user(self.conn, " invalid user ", "hash")
+        self.assertFalse(result)
