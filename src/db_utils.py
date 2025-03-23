@@ -29,3 +29,4 @@ def add_user(conn, username, password_hash):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO users (username, password_hash) VALUES (?, ?) ", (username, password_hash))
     conn.commit()
+    return True
