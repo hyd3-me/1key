@@ -23,5 +23,4 @@ def validate_username(username):
 def add_user(conn, username, password_hash):
     if not validate_username(username):
         return False
-    db_utils.add_user(conn, username, password_hash)
-    return True
+    return db_utils.add_user(conn, username, password_hash)

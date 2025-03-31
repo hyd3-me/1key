@@ -24,9 +24,20 @@ def create_table(conn):
     ''')
     conn.commit()
 
-def add_user(conn, username, password_hash):
-    # Add a new user to the database
+def _add_user(conn, username, password_hash):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO users (username, password_hash) VALUES (?, ?) ", (username, password_hash))
     conn.commit()
-    return True
+
+def add_user(conn, username, password_hash):
+    # Add a new user to the database
+    try:
+        _add_user(conn, username, password_hash)
+        return True
+    except sqlite3.IntegrityError:
+        # Handle the case when the username already exists
+        return False
+    except sqlite3.Error as e:
+        # Log any other SQLite errors
+        print(f"An error occurred: {e}")
+        return False

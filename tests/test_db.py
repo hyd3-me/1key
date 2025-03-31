@@ -69,16 +69,14 @@ class TestDatabaseConnection(unittest.TestCase):
 
         # Try to add not unique username to db
         password_hash2 = utils.generate_hash("password2")
-        with self.assertRaises(sqlite3.IntegrityError):
-            db_utils.add_user(self.conn, username, password_hash2)
+        self.assertFalse(db_utils.add_user(self.conn, username, password_hash2))
 
     def test_add_user_via_utils(self):
         # Add a test user
         username = "test_user"
         password = "test_password"
         password_hash = utils.generate_hash(password)
-        result = utils.add_user(self.conn, username, password_hash)
-        self.assertTrue(result)
+        self.assertTrue(utils.add_user(self.conn, username, password_hash))
     
     def test_add_user_with_invalid_username(self):
         # Invalid username with spaces
